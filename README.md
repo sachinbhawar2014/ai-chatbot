@@ -27,8 +27,8 @@ This is a React web application that provides an AI-powered chatbot experience. 
 1.  **Clone the repository:**
 
     ```bash
-    git clone [repository_url]
-    cd [repository_name]
+    git clone [[repository_url]](https://github.com/sachinbhawar2014/ai-chatbot)
+    cd ai-chatbot
     ```
 
 2.  **Install dependencies:**
@@ -71,21 +71,35 @@ This is a React web application that provides an AI-powered chatbot experience. 
 
 ai-chatbot-react/
 ├── public/
+
 │ └── index.html
+
 ├── src/
+
 │ ├── assets/
+
 │ │ └── ... (images, icons)
+
 │ ├── components/
+
 │ │ ├── ChatBotBody.jsx
+
 │ │ ├── ChatBotHeader.jsx
+
 │ │ ├── ChatBotMessage.jsx
+
 │ │ └── ...
 
 │ ├── App.jsx
+
 │ ├── main.jsx
+
 │ └── ...
+
 ├── package.json
+
 ├── README.md
+
 
 ## Google Generative AI Setup
 
