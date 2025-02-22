@@ -11,7 +11,8 @@ const ChatBotMessage = ({ reply }) => {
                 className="bg-sky-100 p-2 lg:w-max-[60%] md:w-max-[80%] align-text-left"
                 style={{ borderRadius: "5px 10px 10px 10px" }}
             >
-                <p> {reply}</p>
+                <p dangerouslySetInnerHTML={{ __html: reply }} />
+                {/* <p> {reply}</p> */}
             </div>
         </div>
     );
