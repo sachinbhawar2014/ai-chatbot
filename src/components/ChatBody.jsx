@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ChatBotHeader from "./ChatBotHeader";
 import ChatBotMessage from "./ChatBotMessage";
 import UserPrompt from "./UserPrompt";
@@ -7,47 +7,54 @@ import PromptInputForm from "./PromptInputForm";
 import "./style.css";
 
 const ChatBody = () => {
-    const lastMessageRef = useRef(null);
+    const [messages, setMessages] = useState([
+        { type: "chatbot-reply", message: "Hello, How can i help you." },
+    ]);
 
-    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const lastMsgRef = useRef(null);
 
+    // on loading this component the app is greeting user and asking user how it can help user
     useEffect(() => {
-        const welcomeMessage = { type: "chatbot-msg", message: "Hello, How can i help you." };
-        setMessages((prevMsgs) => [...prevMsgs, welcomeMessage]);
-    }, []);
-
-    useEffect(() => {
-        if (lastMessageRef.current) {
-            lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+        if (lastMsgRef.current) {
+            lastMsgRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
 
-    const insertPrompt = (msg) => {
+    const insertPrompt = useCallback((msg) => {
         console.log(msg);
         const prompt = { type: "user-prompt", message: msg };
-        setMessages((prevMessages) => [...prevMessages, prompt]);
-    };
+        const standByReply = { type: "chatbot-reply", message: "Thinking..." };
+        setMessages((prevMessages) => [...prevMessages, prompt, standByReply]);
+        setLoading(true);
+    }, []);
     return (
-        <div className="my-12" style={{ width: "min(700px,90%)" }}>
-            <ChatBotHeader />
-            <div className="message-box w-full h-[550px] bg-white flex-wrap overflow-auto">
-                {messages.map((msg, index) =>
+        <div className="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,99%)]">
+            <div className="header">
+                <ChatBotHeader />
+            </div>
+
+            {/*  */}
+            <div className="message-box w-full h-[550px] bg-white flex-wrap overflow-auto pt-4">
+                {messages.map((msg, ind) =>
                     msg.type === "user-prompt" ? (
                         <UserPrompt
-                            key={index}
+                            key={ind}
                             prompt={msg.message}
-                            ref={index === messages.length - 1 ? lastMessageRef : null}
+                            ref={ind === messages.length - 1 ? lastMsgRef : null}
                         />
                     ) : (
                         <ChatBotMessage
-                            key={index}
+                            key={ind}
                             reply={msg.message}
-                            ref={index === messages.length - 1 ? lastMessageRef : null}
+                            ref={ind === messages.length - 1 ? lastMsgRef : null}
                         />
                     )
                 )}
             </div>
-            <div className="w-full h-16 flex flex-row items-center justify-center bg-white">
+
+            {/*  */}
+            <div className="footer">
                 <PromptInputForm insertPrompt={insertPrompt} />
             </div>
         </div>
